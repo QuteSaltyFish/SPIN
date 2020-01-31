@@ -22,9 +22,26 @@ class Trainer(BaseTrainer):
         self.train_ds = MixedDataset(self.options, ignore_3d=self.options.ignore_3d, is_train=True)
 
         self.model = hmr(config.SMPL_MEAN_PARAMS, pretrained=True).to(self.device)
-        self.optimizer = torch.optim.Adam(params=self.model.parameters(),
-                                          lr=self.options.lr,
-                                          weight_decay=0)
+
+        # Switch the optimizer
+        if self.options.optimizer == 'adam':
+            print('Using adam')
+            self.optimizer = torch.optim.Adam(params=self.model.parameters(),
+                                            lr=self.options.lr,
+                                            weight_decay=0)
+        elif self.options.optimizer == 'sgd':
+            print('Using sgd')
+            self.optimizer = torch.optim.SGD(params=self.model.parameters(),
+                                            lr=self.options.lr,
+                                            weight_decay=0)
+        elif self.options.optimizer == 'momentum':
+            print('Using momentum')
+            self.optimizer = torch.optim.SGD(params=self.model.parameters(),
+                                            lr=self.options.lr, momentum=self.options.momentum,
+                                            weight_decay=0)
+        else:
+            print(self.options.optimizer + 'Not found')
+            raise Exception("Optimizer Wrong!")
         self.smpl = SMPL(config.SMPL_MODEL_DIR,
                          batch_size=self.options.batch_size,
                          create_transl=False).to(self.device)
@@ -48,6 +65,7 @@ class Trainer(BaseTrainer):
         self.fits_dict = FitsDict(self.options, self.train_ds)
 
         # Create renderer
+        print(self.smpl.faces, self.smpl.faces.shape)
         self.renderer = Renderer(focal_length=self.focal_length, img_res=self.options.img_res, faces=self.smpl.faces)
 
     def finalize(self):
@@ -134,6 +152,8 @@ class Trainer(BaseTrainer):
         opt_betas = opt_betas.to(self.device)
         opt_output = self.smpl(betas=opt_betas, body_pose=opt_pose[:,3:], global_orient=opt_pose[:,:3])
         opt_vertices = opt_output.vertices
+        if opt_vertices.shape != (self.options.batch_size, 6890, 3):
+            opt_vertices = torch.zeros_like(opt_vertices, device=self.device)
         opt_joints = opt_output.joints
 
 
@@ -157,6 +177,9 @@ class Trainer(BaseTrainer):
 
         pred_output = self.smpl(betas=pred_betas, body_pose=pred_rotmat[:,1:], global_orient=pred_rotmat[:,0].unsqueeze(1), pose2rot=False)
         pred_vertices = pred_output.vertices
+        if pred_vertices.shape != (self.options.batch_size, 6890, 3):
+            pred_vertices = torch.zeros_like(pred_vertices, device=self.device)
+
         pred_joints = pred_output.joints
 
         # Convert Weak Perspective Camera [s, tx, ty] to camera translation [tx, ty, tz] in 3D given the bounding box size
@@ -285,6 +308,7 @@ class Trainer(BaseTrainer):
         images = images + torch.tensor([0.485, 0.456, 0.406], device=images.device).reshape(1,3,1,1)
 
         pred_vertices = output['pred_vertices']
+        assert pred_vertices.shape == (self.options.batch_size,6890,3)
         opt_vertices = output['opt_vertices']
         pred_cam_t = output['pred_cam_t']
         opt_cam_t = output['opt_cam_t']

@@ -12,7 +12,8 @@ from datasets.preprocess import h36m_extract,\
                                 lsp_dataset_original_extract, \
                                 hr_lspet_extract, \
                                 mpii_extract, \
-                                coco_extract
+                                coco_extract, \
+                                h36m_train
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_files', default=False, action='store_true', help='Extract files needed for training')
@@ -25,6 +26,7 @@ if __name__ == '__main__':
     out_path = cfg.DATASET_NPZ_PATH
     openpose_path = cfg.OPENPOSE_PATH
 
+    h36m_train.h36m_train_extract(cfg.H36M_ROOT, openpose_path, out_path)
     if args.train_files:
         # MPI-INF-3DHP dataset preprocessing (training set)
         mpi_inf_3dhp_extract(cfg.MPI_INF_3DHP_ROOT, openpose_path, out_path, 'train', extract_img=True, static_fits=cfg.STATIC_FITS_DIR)

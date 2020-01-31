@@ -5,15 +5,15 @@ Things you need to change: *_ROOT that indicate the path to each dataset
 """
 from os.path import join
 
-H36M_ROOT = ''
-LSP_ROOT = ''
-LSP_ORIGINAL_ROOT = ''
-LSPET_ROOT = ''
-MPII_ROOT = ''
-COCO_ROOT = ''
-MPI_INF_3DHP_ROOT = ''
-PW3D_ROOT = ''
-UPI_S1H_ROOT = ''
+H36M_ROOT = '/home/data/h36m/SMPL_H36M'
+LSP_ROOT = '/home/data/lsp'
+LSP_ORIGINAL_ROOT = '/home/data/lsp_origin'
+LSPET_ROOT = '/home/data/lspet/hr-lspet'
+MPII_ROOT = '/home/data/MPII'
+COCO_ROOT = '/home/data/coco'
+MPI_INF_3DHP_ROOT = '/home/data/mpi_inf_3dhp'
+PW3D_ROOT = '/home/data/PW3D'
+UPI_S1H_ROOT = '/home/data/upi-s1h'
 
 # Output folder to save test/train npz files
 DATASET_NPZ_PATH = 'data/dataset_extras'

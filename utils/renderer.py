@@ -25,7 +25,9 @@ class Renderer:
         images = images.cpu()
         images_np = np.transpose(images.numpy(), (0,2,3,1))
         rend_imgs = []
+        assert vertices.shape==(64,6890,3)
         for i in range(vertices.shape[0]):
+            # print(vertices.shape)
             rend_img = torch.from_numpy(np.transpose(self.__call__(vertices[i], camera_translation[i], images_np[i]), (2,0,1))).float()
             rend_imgs.append(images[i])
             rend_imgs.append(rend_img)
@@ -39,10 +41,11 @@ class Renderer:
             baseColorFactor=(0.8, 0.3, 0.3, 1.0))
 
         camera_translation[0] *= -1.
-
+        assert vertices.shape==(6890,3)
         mesh = trimesh.Trimesh(vertices, self.faces)
         rot = trimesh.transformations.rotation_matrix(
             np.radians(180), [1, 0, 0])
+        assert mesh.vertices.shape == (6890, 3)
         mesh.apply_transform(rot)
         mesh = pyrender.Mesh.from_trimesh(mesh, material=material)
 

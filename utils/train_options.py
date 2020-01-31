@@ -15,6 +15,7 @@ class TrainOptions():
         gen = self.parser.add_argument_group('General')
         gen.add_argument('--time_to_run', type=int, default=np.inf, help='Total time to run in seconds. Used for training in environments with timing constraints')
         gen.add_argument('--resume', dest='resume', default=False, action='store_true', help='Resume from checkpoint (Use latest checkpoint by default')
+        gen.add_argument('--gpu', type=str, default='0', help='which GPU to use during training')
         gen.add_argument('--num_workers', type=int, default=8, help='Number of processes used for data loading')
         pin = gen.add_mutually_exclusive_group()
         pin.add_argument('--pin_memory', dest='pin_memory', action='store_true')
@@ -29,7 +30,9 @@ class TrainOptions():
 
         train = self.parser.add_argument_group('Training Options')
         train.add_argument('--num_epochs', type=int, default=50, help='Total number of training epochs')
+        train.add_argument('--optimizer', type=str, default='adam', help='Which optimizer to use')
         train.add_argument("--lr", type=float, default=5e-5, help="Learning rate")
+        train.add_argument("--momentum", type=float, default=0.9, help="Learning rate")
         train.add_argument('--batch_size', type=int, default=64, help='Batch size')
         train.add_argument('--summary_steps', type=int, default=100, help='Summary saving frequency')
         train.add_argument('--test_steps', type=int, default=1000, help='Testing frequency during training')
@@ -58,6 +61,7 @@ class TrainOptions():
     def parse_args(self):
         """Parse input arguments."""
         self.args = self.parser.parse_args()
+
         # If config file is passed, override all arguments with the values from the config file
         if self.args.from_json is not None:
             path_to_json = os.path.abspath(self.args.from_json)

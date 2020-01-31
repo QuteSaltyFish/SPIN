@@ -1,6 +1,7 @@
 from __future__ import division
 import sys
 import time
+import os
 
 import torch
 from tqdm import tqdm
@@ -15,6 +16,8 @@ class BaseTrainer(object):
     """
     def __init__(self, options):
         self.options = options
+        print(options.gpu)
+        # os.environ['CUDA_VISIBLE_DEVICES'] = str(options.gpu)
         self.endtime = time.time() + self.options.time_to_run
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         # override this function to define your model, optimizers etc.

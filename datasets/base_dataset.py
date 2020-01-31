@@ -181,7 +181,12 @@ class BaseDataset(Dataset):
         flip, pn, rot, sc = self.augm_params()
         
         # Load image
-        imgname = join(self.img_dir, self.imgname[index])
+        try:
+            imgname = join(self.img_dir, self.imgname[index])
+        except:
+            # print(self.img_dir, self.imgname[index])
+            imgname = join(self.img_dir, (self.imgname[index]).decode())
+            # print(imgname)
         try:
             img = cv2.imread(imgname)[:,:,::-1].copy().astype(np.float32)
         except TypeError:

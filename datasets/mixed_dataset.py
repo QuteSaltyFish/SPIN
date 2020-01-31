@@ -9,10 +9,13 @@ from .base_dataset import BaseDataset
 class MixedDataset(torch.utils.data.Dataset):
 
     def __init__(self, options, **kwargs):
-        self.dataset_list = ['h36m', 'lsp-orig', 'mpii', 'lspet', 'coco', 'mpi-inf-3dhp']
-        self.dataset_dict = {'h36m': 0, 'lsp-orig': 1, 'mpii': 2, 'lspet': 3, 'coco': 4, 'mpi-inf-3dhp': 5}
+        # self.dataset_list = ['h36m', 'lsp-orig', 'mpii', 'lspet', 'coco', 'mpi-inf-3dhp']
+        self.dataset_list = ['h36m', 'lsp-orig', 'mpii', 'lspet', 'coco']
+        self.dataset_dict = {'h36m': 0, 'lsp-orig': 1, 'mpii': 2, 'lspet': 3, 'coco': 4}
         self.datasets = [BaseDataset(options, ds, **kwargs) for ds in self.dataset_list]
         total_length = sum([len(ds) for ds in self.datasets])
+        for ds in self.datasets:
+            print(len(ds))
         length_itw = sum([len(ds) for ds in self.datasets[1:-1]])
         self.length = max([len(ds) for ds in self.datasets])
         """

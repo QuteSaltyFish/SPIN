@@ -149,6 +149,7 @@ class HMR(nn.Module):
         
         pred_rotmat = rot6d_to_rotmat(pred_pose).view(batch_size, 24, 3, 3)
 
+        # ouput the prediected rotation, shape, and cam parameters
         return pred_rotmat, pred_shape, pred_cam
 
 def hmr(smpl_mean_params, pretrained=True, **kwargs):
