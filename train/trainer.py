@@ -247,6 +247,8 @@ class Trainer(BaseTrainer):
         # Assert whether a fit is valid by comparing the joint loss with the threshold
         valid_fit = (opt_joint_loss < self.options.smplify_threshold).to(self.device)
         # Add the examples with GT parameters to the list of valid fits
+        # print(valid_fit.dtype)
+        valid_fit = valid_fit.to(torch.uint8)
         valid_fit = valid_fit | has_smpl
 
         opt_keypoints_2d = perspective_projection(opt_joints,

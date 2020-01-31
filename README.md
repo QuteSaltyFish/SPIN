@@ -109,4 +109,4 @@ CUDA_VISIBLE_DEVICES=4 python3 train.py --name test --pretrained_checkpoint=/hom
 
 CUDA_VISIBLE_DEVICES=4 python3 eval.py --checkpoint=/home/Project/new_SPIN/logs/train_test_2/checkpoints/2020_01_31-03_13_56.pt --dataset=h36m-p2 --log_freq=20
 
-CUDA_VISIBLE_DEVICES=2 python train.py --name train_test_3 --pretrained_checkpoint=/home/project/new_SPIN/logs/train_test_2/checkpoints/2020_01_31-03_13_56.pt --run_smplify --num_workers 48
+CUDA_VISIBLE_DEVICES=2 python train.py --name adam_continue --pretrained_checkpoint=/home/project/new_SPIN/logs/train_test_2/checkpoints/2020_01_31-03_13_56.pt --run_smplify --num_workers 48
