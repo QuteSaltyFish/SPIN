@@ -65,7 +65,6 @@ class Trainer(BaseTrainer):
         self.fits_dict = FitsDict(self.options, self.train_ds)
 
         # Create renderer
-        print(self.smpl.faces, self.smpl.faces.shape)
         self.renderer = Renderer(focal_length=self.focal_length, img_res=self.options.img_res, faces=self.smpl.faces)
 
     def finalize(self):
@@ -305,6 +304,8 @@ class Trainer(BaseTrainer):
         return output, losses
 
     def train_summaries(self, input_batch, output, losses):
+        # Update dictionary every time when summaries are provoked
+        self.finalize()
         images = input_batch['img']
         images = images * torch.tensor([0.229, 0.224, 0.225], device=images.device).reshape(1,3,1,1)
         images = images + torch.tensor([0.485, 0.456, 0.406], device=images.device).reshape(1,3,1,1)

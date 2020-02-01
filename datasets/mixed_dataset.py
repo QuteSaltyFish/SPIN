@@ -14,8 +14,6 @@ class MixedDataset(torch.utils.data.Dataset):
         self.dataset_dict = {'h36m': 0, 'lsp-orig': 1, 'mpii': 2, 'lspet': 3, 'coco': 4}
         self.datasets = [BaseDataset(options, ds, **kwargs) for ds in self.dataset_list]
         total_length = sum([len(ds) for ds in self.datasets])
-        for ds in self.datasets:
-            print(len(ds))
         length_itw = sum([len(ds) for ds in self.datasets[1:-1]])
         self.length = max([len(ds) for ds in self.datasets])
         """
