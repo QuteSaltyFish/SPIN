@@ -112,3 +112,5 @@ CUDA_VISIBLE_DEVICES=4 python3 eval.py --checkpoint=/home/Project/new_SPIN/logs/
 CUDA_VISIBLE_DEVICES=2 python train.py --name adam_continue --pretrained_checkpoint=/home/project/new_SPIN/logs/train_test_2/checkpoints/2020_01_31-03_13_56.pt --run_smplify --num_workers 48
 
 python3 train.py --name adam_continue --pretrained_checkpoint=/home/project/my_spin/logs/train_test/checkpoints/2020_01_31-12_09_16.pt --run_smplify --num_workers 12 --optimizer adam --lr
+
+CUDA_VISIBLE_DEVICES=4 python3 train.py --name test_denpose_dataset --pretrained_checkpoint=/home/project/my_spin/logs/train_test/checkpoints/2020_01_31-12_09_16.pt --run_smplify --num_workers 12 --optimizer adam

@@ -36,7 +36,8 @@ DATASET_FILES = [ {'h36m-p1': join(DATASET_NPZ_PATH, 'h36m_valid_protocol1.npz')
                    'mpii': join(DATASET_NPZ_PATH, 'mpii_train.npz'),
                    'coco': join(DATASET_NPZ_PATH, 'coco_2014_train.npz'),
                    'lspet': join(DATASET_NPZ_PATH, 'hr-lspet_train.npz'),
-                   'mpi-inf-3dhp': join(DATASET_NPZ_PATH, 'mpi_inf_3dhp_train.npz')
+                   'mpi-inf-3dhp': join(DATASET_NPZ_PATH, 'mpi_inf_3dhp_train.npz'),
+                   'densepose_coco':join(DATASET_NPZ_PATH, 'densepose_coco_single_train.npz')
                   }
                 ]
 
@@ -49,6 +50,7 @@ DATASET_FOLDERS = {'h36m': H36M_ROOT,
                    'mpi-inf-3dhp': MPI_INF_3DHP_ROOT,
                    'mpii': MPII_ROOT,
                    'coco': COCO_ROOT,
+                   'densepose_coco': COCO_ROOT,
                    '3dpw': PW3D_ROOT,
                    'upi-s1h': UPI_S1H_ROOT,
                 }
